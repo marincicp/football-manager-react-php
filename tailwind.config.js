@@ -42,6 +42,9 @@ export default {
           700: "var(--color-red-700)",
           800: "var(--color-red-800)",
         },
+        "cust-lime": {
+          400: "var(--color-lime-400)",
+        },
       },
     },
   },

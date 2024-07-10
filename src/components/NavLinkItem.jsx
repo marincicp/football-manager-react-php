@@ -9,7 +9,7 @@ function NavLinkItem({ to, title }) {
           isPending
             ? "pending"
             : isActive
-            ? "border-b-4 border-cust-indigo-700 p-2 w-full text-center "
+            ? "border-b-4 border-blue-800 p-2 w-full text-center rounded"
             : ""
         }
       >
