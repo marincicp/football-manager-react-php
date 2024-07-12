@@ -22,7 +22,7 @@ function AddTrainingForm({ data, setShowModal }) {
     await fetch(`${BASE_URL}/training/add`, {
       method: "POST",
       headers: {
-        "Content-Type": "aplication/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
     });
@@ -56,7 +56,7 @@ function AddTrainingForm({ data, setShowModal }) {
           />
         </Table>
         <div className="flex justify-end mt-6">
-          <button className="w-6/12 bg-emerald-400 rounded-md p-2 uppercase text-white font-semibold">
+          <button className="w-4/12 bg-emerald-400 rounded-md p-2 uppercase text-white font-semibold">
             Dodaj
           </button>
         </div>
@@ -69,4 +69,5 @@ export default AddTrainingForm;
 
 AddTrainingForm.propTypes = {
   data: PropTypes.obj,
+  setShowModal: PropTypes.func,
 };
