@@ -2,15 +2,17 @@ import { useState } from "react";
 import AddTrainingRow from "./AddTrainingRow";
 import Table from "./Table";
 import PropTypes from "prop-types";
-
-function AddTrainingForm({ data, setShowModal }) {
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const [players1, setplayers] = useState(data);
+import { useAppContext } from "../context/AppContext";
+// import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+function AddTrainingForm({ setShowTrainingModal }) {
+  const { addNewTraining, players, loading } = useAppContext();
+  const [playersData, setPlayerData] = useState(players);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const playerData = players1.map((player) => ({
+    const playerData = playersData.map((player) => ({
       player_id: player.player_id,
       attended: player.attended ? 1 : 0,
     }));
@@ -18,20 +20,16 @@ function AddTrainingForm({ data, setShowModal }) {
     const payload = {
       players: playerData,
     };
+    await addNewTraining(payload);
 
-    await fetch(`${BASE_URL}/training/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    setShowModal(false);
+    // toast.success("Success Notification !", {
+    //   position: "top-right",
+    // });
+    setShowTrainingModal(false);
   };
 
   const handleCheckboxChange = (id, checked) => {
-    setplayers((prev) =>
+    setPlayerData((prev) =>
       prev.map((player) =>
         player.player_id === id ? { ...player, attended: checked } : player
       )
@@ -49,14 +47,21 @@ function AddTrainingForm({ data, setShowModal }) {
           <Table.Header header="# Ime Odradio" />
 
           <Table.Body
-            data={players1}
+            data={playersData}
             render={(item) => (
-              <AddTrainingRow change={handleCheckboxChange} item={item} />
+              <AddTrainingRow
+                change={handleCheckboxChange}
+                item={item}
+                key={item.player_id}
+              />
             )}
           />
         </Table>
         <div className="flex justify-end mt-6">
-          <button className="w-4/12 bg-emerald-400 rounded-md p-2 uppercase text-white font-semibold">
+          <button
+            disabled={loading}
+            className="w-4/12 bg-emerald-400 rounded-md p-2 uppercase text-white font-semibold disabled:opacity-25"
+          >
             Dodaj
           </button>
         </div>
@@ -68,6 +73,5 @@ function AddTrainingForm({ data, setShowModal }) {
 export default AddTrainingForm;
 
 AddTrainingForm.propTypes = {
-  data: PropTypes.obj,
-  setShowModal: PropTypes.func,
+  setShowTrainingModal: PropTypes.func,
 };

@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Spinner } from "./";
 
 function Standings() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -10,7 +11,7 @@ function Standings() {
 
   return (
     <div className="h-screen w-screen">
-      {!isLoaded && <div>Loading...</div>}
+      {!isLoaded && <Spinner />}
       <iframe
         title="Tablica"
         src="https://widgets.hrnogomet.hr/standings?league=1ZNLVS"

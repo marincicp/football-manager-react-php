@@ -1,5 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AppLayout, Details, Players, Standings } from "./components";
+import { AppLayout, Details, Payment } from "./components";
+import { lazy, Suspense } from "react";
+
+const Standings = lazy(() => import("./components/Standings"));
 
 const router = createBrowserRouter([
   {
@@ -10,17 +13,21 @@ const router = createBrowserRouter([
         path: "/",
         element: <Details />,
       },
-      {
-        path: "/igraci",
-        element: <Players />,
-      },
+      // {
+      //   path: "/igraci",
+      //   element: <Players />,
+      // },
       {
         path: "/tablica",
-        element: <Standings />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Standings />,
+          </Suspense>
+        ),
       },
       {
         path: "/seva",
-        element: <Standings />,
+        element: <Payment />,
       },
     ],
   },
@@ -31,3 +38,4 @@ function App() {
 }
 
 export default App;
+// lazy: () => import("./components/Standings"),

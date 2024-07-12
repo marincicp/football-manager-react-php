@@ -1,9 +1,12 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
+import { useAppContext } from "../context/AppContext";
 
-function AddPlayerForm({ setShowModal }) {
+function AddPlayerForm({ setShowPlayerModal }) {
   const [name, setName] = useState("");
-  const [godine, setGodine] = useState("");
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const [godine, setGodine] = useState(null);
+
+  const { addNewPlayer, loading } = useAppContext();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -11,15 +14,8 @@ function AddPlayerForm({ setShowModal }) {
       name,
       dob: godine,
     };
-    console.log(payload, "palyoad");
-    const res = await fetch(`${BASE_URL}/players/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-    setShowModal(false);
+    await addNewPlayer(payload);
+    setShowPlayerModal(false);
   };
 
   return (
@@ -59,7 +55,10 @@ function AddPlayerForm({ setShowModal }) {
           />
         </div>
         <div className="flex justify-end mt-6">
-          <button className="w-4/12 bg-emerald-400 rounded-md p-2 uppercase text-white font-semibold">
+          <button
+            className="w-4/12 bg-emerald-400 rounded-md p-2 uppercase text-white font-semibold disabled:opacity-25"
+            disabled={loading}
+          >
             Dodaj
           </button>
         </div>
@@ -69,3 +68,7 @@ function AddPlayerForm({ setShowModal }) {
 }
 
 export default AddPlayerForm;
+
+AddPlayerForm.propTypes = {
+  setShowPlayerModal: PropTypes.func,
+};

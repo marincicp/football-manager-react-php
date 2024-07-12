@@ -12,9 +12,11 @@ import AddTrainingForm from "./AddTrainingForm";
 import AddTrainingRow from "./AddTrainingRow";
 import AddPlayerForm from "./AddPlayerForm";
 import Payment from "./Payment";
+import Spinner from "./Spinner";
 import PaymentRow from "./PaymentRow";
 
 export {
+  Spinner,
   PaymentRow,
   Payment,
   AddTrainingRow,

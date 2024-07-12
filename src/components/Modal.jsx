@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { HiOutlineX } from "react-icons/hi";
 
 function Modal({ onClick, children }) {
@@ -19,3 +20,8 @@ function Modal({ onClick, children }) {
 }
 
 export default Modal;
+
+Modal.propTypes = {
+  onClick: PropTypes.func,
+  children: PropTypes.array,
+};

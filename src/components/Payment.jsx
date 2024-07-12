@@ -1,56 +1,12 @@
-import { useEffect, useState } from "react";
 import { PaymentRow } from "./";
 import Table from "./Table";
 import { FaEuroSign } from "react-icons/fa";
-// ZAVRSITI
+import { useAppContext } from "../context/AppContext";
 
 function Payment() {
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const [players, setPlayers] = useState([null]);
-  const [totalDebt, setTotalDebt] = useState(0);
-  const [totalPaid, setTotalPaid] = useState(0);
+  const { players, totalPaid, totalDebt } = useAppContext();
 
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch(`${BASE_URL}/players`);
-      const data = await res.json();
-      setPlayers(data.players);
-      setTotalDebt(data.total_debt);
-      setTotalPaid(data.total_paid);
-    }
-
-    fetchData();
-  }, []);
-
-  async function handleAddDebt(playerID) {
-    const payload = {
-      player_id: playerID,
-    };
-
-    const res = await fetch(`${BASE_URL}/players/addDebt`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    console.log(res, "re");
-  }
-
-  async function handleAddCash(playerID) {
-    const payload = {
-      player_id: playerID,
-    };
-
-    const res = await fetch(`${BASE_URL}/players/payEuro`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-  }
+  //   if (loading) return <Spinner />;
 
   return (
     <div className="h-screen p-4 flex  flex-col gap-6">
@@ -65,15 +21,7 @@ function Payment() {
           <Table.Header header="# Ime Stanje Akcija" />
           <Table.Body
             data={players}
-            render={(item) => (
-              <PaymentRow
-                handleAddCash={handleAddCash}
-                handleAddDebt={handleAddDebt}
-                totalPaid={totalPaid}
-                totalDebt={totalDebt}
-                item={item}
-              />
-            )}
+            render={(item) => <PaymentRow key={item.player_id} item={item} />}
           />
           <Table.Footer>
             <td></td>
