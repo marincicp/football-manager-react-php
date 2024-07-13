@@ -5,7 +5,6 @@ function Nav() {
     <nav className="bg-cust-grey-50 shadow-md">
       <ul className="flex justify-between ">
         <NavLinkItem to="/" title="Detalji" />
-        {/* <NavLinkItem to="igraci" title="Igrači" /> */}
         <NavLinkItem to="/tablica" title="Tablica" />
         <NavLinkItem to="/seva" title="Ševa" />
       </ul>

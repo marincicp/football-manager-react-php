@@ -1,22 +1,24 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AppLayout, Details, Payment } from "./components";
+import { AppLayout, Details, Payment, ProtectedRoute } from "./components";
 import { lazy, Suspense } from "react";
+import { Login } from "./pages";
 
 const Standings = lazy(() => import("./components/Standings"));
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <AppLayout />,
+    element: (
+      <ProtectedRoute>
+        <AppLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "/",
         element: <Details />,
       },
-      // {
-      //   path: "/igraci",
-      //   element: <Players />,
-      // },
+
       {
         path: "/tablica",
         element: (
@@ -31,6 +33,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/login",
+    element: <Login />,
+  },
 ]);
 
 function App() {
@@ -38,4 +44,3 @@ function App() {
 }
 
 export default App;
-// lazy: () => import("./components/Standings"),

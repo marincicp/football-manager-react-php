@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AuthContextProvider>
       <App />
       <Toaster
-        position="top-right"
+        position="top-center"
         gutter={12}
         containerStyle={{ margin: "8px" }}
         toastOptions={{

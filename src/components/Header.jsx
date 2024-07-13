@@ -7,19 +7,18 @@ function Header() {
 
   return (
     <header className="bg-cust-grey-0 flex  flex-col ">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center px-4">
         <Logo />
-
         <button
           onClick={logout}
-          className="bg-white justify-center flex items-center gap-2  p-4 rounded-md float-right disabled:opacity-35 text-blue-900 border-2 border-gray-200 shadow"
+          className="bg- justify-center flex items-center gap-2  p-1 rounded-xl  disabled:opacity-35 text-blue-900 border-1 shadow-xl border-gray-300  text-xl"
           // disabled={loading}
         >
           <IoLogOutOutline
-            size="2em"
-            className="bg-blue-900 text-white rounded-full p-2"
+            size="3rem"
+            className="bg-cust-grey-100 text-blue-900 rounded-lg p-1"
           />
-          <span className="font-bold text-xl">Odjava </span>
+          <span className="font-bold text-lg">Odjava </span>
         </button>
       </div>
       <Nav />
