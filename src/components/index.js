@@ -14,8 +14,11 @@ import AddPlayerForm from "./AddPlayerForm";
 import Payment from "./Payment";
 import Spinner from "./Spinner";
 import PaymentRow from "./PaymentRow";
+import PageLayout from "./PageLayout";
+import ProtectedRoute from "./ProtectedRoute";
 
 export {
+  ProtectedRoute,
   Spinner,
   PaymentRow,
   Payment,
@@ -32,4 +35,5 @@ export {
   Standings,
   Players,
   Logo,
+  PageLayout,
 };

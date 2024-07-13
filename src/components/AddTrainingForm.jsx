@@ -3,8 +3,6 @@ import AddTrainingRow from "./AddTrainingRow";
 import Table from "./Table";
 import PropTypes from "prop-types";
 import { useAppContext } from "../context/AppContext";
-// import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 function AddTrainingForm({ setShowTrainingModal }) {
   const { addNewTraining, players, loading } = useAppContext();
   const [playersData, setPlayerData] = useState(players);
@@ -22,9 +20,6 @@ function AddTrainingForm({ setShowTrainingModal }) {
     };
     await addNewTraining(payload);
 
-    // toast.success("Success Notification !", {
-    //   position: "top-right",
-    // });
     setShowTrainingModal(false);
   };
 
