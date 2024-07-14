@@ -17,7 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         toastOptions={{
           success: {
             duration: 4000,
-            style: { backgroundColor: "var(--color-green-100)" },
+            style: { backgroundColor: "#dcfce7" },
           },
           error: {
             duration: 5000,

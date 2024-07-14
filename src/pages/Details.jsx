@@ -1,6 +1,13 @@
 import { useState } from "react";
-import Table from "./Table";
-import { AddTrainingForm, AddPlayerForm, DetailRow, Modal, Spinner } from "./";
+import Table from "../components/Table";
+import {
+  AddTrainingForm,
+  AddPlayerForm,
+  DetailRow,
+  Modal,
+  Spinner,
+  PageLayout,
+} from "../components";
 import { HiPlus } from "react-icons/hi";
 import { useAppContext } from "../context/AppContext";
 
@@ -13,8 +20,8 @@ function Details() {
   if (loading) return <Spinner />;
 
   return (
-    <div className="flex flex-col gap-6 bg-red-500 h-screnn">
-      <div className="flex justify-end px-6">
+    <PageLayout className="">
+      <PageLayout.Header className="flex justify-end px-6">
         {showTrainingModal && (
           <Modal onClick={() => setShowTrainingModal((prev) => !prev)}>
             <AddTrainingForm
@@ -45,8 +52,8 @@ function Details() {
             <HiPlus /> <span className="text-[1.2rem]">Trening </span>
           </button>
         </div>
-      </div>
-      <div className="w-full px-2 shadow-md bg-blue-800 h-[100px]">
+      </PageLayout.Header>
+      <PageLayout.Body className="">
         <Table columns="2rem 1fr 5rem 7rem 6rem">
           <Table.Header header="# Ime Dob Trening" />
 
@@ -55,8 +62,8 @@ function Details() {
             render={(item) => <DetailRow key={item.player_id} item={item} />}
           />
         </Table>
-      </div>
-    </div>
+      </PageLayout.Body>
+    </PageLayout>
   );
 }
 

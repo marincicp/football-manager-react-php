@@ -19,14 +19,14 @@ function AddPlayerForm({ setShowPlayerModal }) {
   };
 
   return (
-    <div className="mt-16 p-2 flex flex-col items-center">
-      <p className="font-cust-grey-900 uppercase p-2 font-bold  mb-2">
+    <div className="mt-16 p-2 flex flex-col items-center ">
+      <p className="font-cust-grey-900 uppercase p-2 font-bold  mb-2 ">
         Dodaj novog igrača
       </p>
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-8 w-10/12 p-4 bg-cust-gray-50"
+        className="flex flex-col gap-8 w-10/12 p-4 bg-cust-gray-50 "
       >
         <div className="flex flex-col gap-2">
           <label htmlFor="name" className="text-cust-grey-900 text-[1.4rem]">
@@ -36,9 +36,10 @@ function AddPlayerForm({ setShowPlayerModal }) {
             placeholder="Ivić I."
             type="text"
             name="name"
-            className="py-2 px-4 rounded-md bg-cust-grey-100"
+            className="py-2 px-4 rounded-md bg-cust-grey-200"
             onChange={(e) => setName(e.target.value)}
             value={name}
+            required
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -49,9 +50,10 @@ function AddPlayerForm({ setShowPlayerModal }) {
             type="number"
             name="name"
             placeholder="25"
-            className="py-2 px-4 rounded-md bg-cust-grey-100"
+            className="py-2 px-4 rounded-md bg-cust-grey-200"
             onChange={(e) => setGodine(e.target.value)}
             value={godine}
+            required
           />
         </div>
         <div className="flex justify-end mt-6">

@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import PropTypes from "prop-types";
+import toast from "react-hot-toast";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const AppContext = createContext();
 
@@ -49,7 +50,10 @@ export function AppContextProvider({ children }) {
       });
 
       await getAllPlayers();
+
+      toast.success("Plus uspješno dodan.");
     } catch (err) {
+      toast.error("Greška. Pokušaj ponovo.");
       console.log(err);
     } finally {
       dispatch({ type: "setLoading", payload: false });
@@ -72,15 +76,17 @@ export function AppContextProvider({ children }) {
       });
 
       await getAllPlayers();
+      toast.success("1 € uspješno dodan.");
     } catch (err) {
       console.log(err);
+      toast.error("Greška. Pokušaj ponovo.");
     }
   }
 
   async function addNewTraining(payload) {
     try {
-      dispatch({ type: "setLoading" });
-      await fetch(`${BASE_URL}/training/add`, {
+      dispatch({ type: "setLoading", payload: true });
+      const res = await fetch(`${BASE_URL}/training/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,25 +94,40 @@ export function AppContextProvider({ children }) {
         body: JSON.stringify(payload),
       });
 
+      if (!res.ok) {
+        throw new Error("Greška prilikom dodavanja treninga.");
+      }
+
       await getAllPlayers();
+
+      toast.success("Trening uspješno dodan.");
     } catch (err) {
-      console.log(err);
+      toast.error(err);
+    } finally {
+      dispatch({ type: "setLoading", payload: false });
     }
   }
 
   async function addNewPlayer(payload) {
-    dispatch({ type: "setLoading" });
+    dispatch({ type: "setLoading", payload: true });
     try {
-      await fetch(`${BASE_URL}/players/addPlayer`, {
+      const res = await fetch(`${BASE_URL}/players/addPlayer`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
+
+      if (!res.ok) {
+        throw new Error("Greška prilikom dodavanja igrača.");
+      }
+
       await getAllPlayers();
+
+      toast.success("Igrač uspješno dodan.");
     } catch (err) {
-      console.log(err);
+      toast.error(err);
     } finally {
       dispatch({ type: "setLoading", payload: false });
     }

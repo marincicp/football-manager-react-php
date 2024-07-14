@@ -11,12 +11,12 @@ function Header() {
         <Logo />
         <button
           onClick={logout}
-          className="bg- justify-center flex items-center gap-2  p-1 rounded-xl  disabled:opacity-35 text-blue-900 border-1 shadow-xl border-gray-300  text-xl"
+          className="bg- justify-center flex items-center gap-2  p-1 rounded-xl  disabled:opacity-35 text-cust-grey-900 border-1 shadow-xl border-gray-300  text-xl"
           // disabled={loading}
         >
           <IoLogOutOutline
             size="3rem"
-            className="bg-cust-grey-100 text-blue-900 rounded-lg p-1"
+            className="bg-cust-grey-100 text-cust-grey-900 rounded-lg p-1"
           />
           <span className="font-bold text-lg">Odjava </span>
         </button>

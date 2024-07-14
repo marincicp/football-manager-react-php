@@ -32,12 +32,12 @@ function AddTrainingForm({ setShowTrainingModal }) {
   };
 
   return (
-    <div className="mt-16 p-2">
-      <p className="font-cust-grey-900 uppercase p-2 font-bold  mb-2">
+    <div className="mt-16">
+      <p className="font-cust-grey-900 uppercase p-2 font-bold  mb-2 px-4">
         Evidencija treninga
       </p>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="shadow-2xl px-4">
         <Table columns="3rem 1fr  12rem">
           <Table.Header header="# Ime Odradio" />
 

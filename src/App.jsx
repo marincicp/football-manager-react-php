@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AppLayout, Details, Payment, ProtectedRoute } from "./components";
+import { AppLayout, ProtectedRoute } from "./components";
 import { lazy, Suspense } from "react";
-import { Login } from "./pages";
+import { Login, Details, Payment } from "./pages";
 
 const Standings = lazy(() => import("./components/Standings"));
 

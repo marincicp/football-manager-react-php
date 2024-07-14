@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { isEmpty, map, head, keys, filter } from "lodash-es";
 import { AiFillFilter, AiOutlineFilter } from "react-icons/ai";
 import "./table.css";
+import Spinner from "./Spinner";
 
 const TableContext = createContext();
 
@@ -47,14 +48,14 @@ function SortableHeaderCell({ children, onClick, active }) {
   );
 }
 
-function Row({ children, header }) {
+function Row({ children, header, className }) {
   const { columns } = useContext(TableContext);
 
   return (
     <tr
-      className={`common-row row border-bottom border-cust-grey-50 border-[1px] ${
-        header ? "bg-cust-grey-200 " : ""
-      }`}
+      className={`common-row row border-bottom border-cust-grey-50 border-[1px]  ${
+        header ? "bg-cust-grey-200 " : "bg-cust-grey-0"
+      } ${className}`}
       style={{ gridTemplateColumns: columns }}
     >
       {children}
@@ -63,18 +64,24 @@ function Row({ children, header }) {
 }
 
 function Empty({ children }) {
+  const { loading } = useContext(TableContext);
+
   return <tbody className="empty">{children}</tbody>;
 }
 
 function Body({ data, render }) {
-  const { columns } = useContext(TableContext);
+  const { columns, loading } = useContext(TableContext);
+  console.log(loading, "loading", data);
 
   if (isEmpty(data)) return <Empty>No data !</Empty>;
 
   const columnNames = filter(keys(head(data)), (column) => column !== "id");
 
   return (
-    <tbody className="body" style={{ gridTemplateColumns: columns }}>
+    <tbody
+      className="body min-h-screen rounded-lg"
+      style={{ gridTemplateColumns: columns }}
+    >
       {render
         ? map(data, render)
         : map(data, (item) => (
@@ -88,10 +95,10 @@ function Body({ data, render }) {
   );
 }
 
-function Footer({ children }) {
+function Footer({ children, className }) {
   return (
-    <tfoot className="bg-cust-grey-100">
-      <Table.Row>{children}</Table.Row>
+    <tfoot className="bg-cust-grey-200">
+      <Table.Row className={`${className}`}>{children}</Table.Row>
     </tfoot>
   );
 }
@@ -106,10 +113,14 @@ function Cell({ children, align, bold, className }) {
   );
 }
 
-function Table({ columns, children }) {
+function Table({ columns, children, loading, className }) {
+  if (loading) return <Spinner />;
+
   return (
-    <TableContext.Provider value={{ columns }}>
-      <table className="table shadow-md">{children}</table>
+    <TableContext.Provider value={{ columns, loading }}>
+      <table className={`table shadow-md rounded-lg ${className}`}>
+        {children}
+      </table>
     </TableContext.Provider>
   );
 }

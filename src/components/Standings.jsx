@@ -10,7 +10,7 @@ function Standings() {
   };
 
   return (
-    <div className="h-screen w-screen">
+    <div className="h-full  w-full overflow-hidden py-2">
       {!isLoaded && <Spinner />}
       <iframe
         title="Tablica"
