@@ -44,4 +44,9 @@ html {
 body {
   font-size: 1.6rem;
   font-family: sans-serif;
+  background: var(--color-grey-50);
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

@@ -99,7 +99,7 @@ function Footer({ children, className }) {
   );
 }
 
-function Cell({ children, align, bold, className }) {
+function Cell({ children, align = "center", bold, className }) {
   const boldCell = bold ? "bold" : "";
 
   return (
@@ -154,7 +154,7 @@ Body.propTypes = {
 };
 
 Empty.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 Row.propTypes = {
@@ -172,10 +172,6 @@ SortableHeaderCell.propTypes = {
   onClick: PropTypes.func,
   children: PropTypes.string,
   active: PropTypes.bool,
-};
-
-Cell.defaultProps = {
-  align: "center",
 };
 
 Footer.propTypes = {

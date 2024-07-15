@@ -54,6 +54,7 @@ function AddPlayerForm({ setShowPlayerModal }) {
             onChange={(e) => setGodine(e.target.value)}
             value={godine}
             required
+            max={50}
           />
         </div>
         <div className="flex justify-end mt-6">

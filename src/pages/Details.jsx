@@ -17,18 +17,15 @@ function Details() {
   const [showTrainingModal, setShowTrainingModal] = useState(false);
   const [showPlayerModal, setShowPlayerModal] = useState(false);
   const { user } = useAuthContext();
-  const { players, loading } = useAppContext();
-
+  const { players, loading, query } = useAppContext();
   const prosjek = useMemo(() => {
-    console.log("uso");
     return (
       players.reduce((count, player) => count + Number(player.dob), 0) /
       players.length
     );
   }, [players]);
-  console.log(prosjek);
   return (
-    <PageLayout className="">
+    <PageLayout>
       <PageLayout.Header className="flex justify-between px-6">
         <Dropdown />
         {showTrainingModal && (
@@ -70,27 +67,28 @@ function Details() {
         ) : (
           <Table columns="2rem 1fr 5rem 7rem 6rem">
             <Table.Header header="# Ime God. Trening" />
-
             <Table.Body
               data={players}
               render={(item, index) => (
                 <DetailRow index={index} key={item.player_id} item={item} />
               )}
             />
-            <Table.Footer className="bg-cust-grey-200 border-0">
-              <td></td>
-              <Table.Cell align="right" className="bold uppercase text-2xl">
-                Prosjek :
-              </Table.Cell>
-              <Table.Cell
-                align="center"
-                className="flex justify-center items-center font-semibold gap-1"
-              >
-                <span className="text-[1.4rem]">
-                  {prosjek?.toFixed(0) || "-"}
-                </span>
-              </Table.Cell>
-            </Table.Footer>
+            {!query && (
+              <Table.Footer className="bg-cust-grey-200 border-0">
+                <td></td>
+                <Table.Cell align="right" className="bold uppercase text-2xl">
+                  Prosjek :
+                </Table.Cell>
+                <Table.Cell
+                  align="center"
+                  className="flex justify-center items-center font-semibold gap-1"
+                >
+                  <span className="text-[1.4rem]">
+                    {prosjek?.toFixed(0) || "-"}
+                  </span>
+                </Table.Cell>
+              </Table.Footer>
+            )}
           </Table>
         )}
       </PageLayout.Body>

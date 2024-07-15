@@ -23,5 +23,5 @@ export default Modal;
 
 Modal.propTypes = {
   onClick: PropTypes.func,
-  children: PropTypes.array,
+  children: PropTypes.object,
 };

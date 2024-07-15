@@ -9,6 +9,7 @@ import {
   getMonthsService,
   increaseDebtService,
 } from "../services/apiPlayers";
+import { ACTION_TYPE } from "../constants/actionType";
 const AppContext = createContext();
 
 const initialState = {
@@ -17,34 +18,39 @@ const initialState = {
   months: [],
   totalDebt: 0,
   totalPaid: 0,
+  lastTrainingDate: "",
   laoding: true,
   query: "",
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case "getPlayers":
+    case ACTION_TYPE.GET_PLAYERS:
       return {
         ...state,
         loading: false,
         players: action.payload.players,
         totalDebt: +action.payload.total_debt,
         totalPaid: +action.payload.total_paid,
+        lastTrainingDate: action.payload.last_training_date,
+        query: action.payload.query,
       };
 
-    case "setLoading":
+    case ACTION_TYPE.SET_LOADING:
       return { ...state, loading: action.payload };
-    case "getMonths":
+    case ACTION_TYPE.GET_MONTHS:
       return { ...state, months: action.payload };
   }
 }
 
 export function AppContextProvider({ children }) {
-  const [{ players, loading, totalDebt, totalPaid, months, query }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    { players, loading, totalDebt, totalPaid, months, query, lastTrainingDate },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
   async function increaseDebt(playerID) {
-    dispatch({ type: "setLoading", payload: true });
+    dispatch({ type: ACTION_TYPE.SET_LOADING, payload: true });
     try {
       await increaseDebtService(playerID);
       await getAllPlayers();
@@ -53,12 +59,12 @@ export function AppContextProvider({ children }) {
     } catch (err) {
       toast.error("Greška. Pokušaj ponovo.");
     } finally {
-      dispatch({ type: "setLoading", payload: false });
+      dispatch({ type: ACTION_TYPE.SET_LOADING, payload: false });
     }
   }
 
   async function decreaseDebt(playerID) {
-    dispatch({ type: "setLoading", payload: true });
+    dispatch({ type: ACTION_TYPE.SET_LOADING, payload: true });
 
     try {
       await decreaseDebtService(playerID);
@@ -66,12 +72,14 @@ export function AppContextProvider({ children }) {
       toast.success("1 € uspješno dodan.");
     } catch (err) {
       toast.error("Greška. Pokušaj ponovo.");
+    } finally {
+      dispatch({ type: ACTION_TYPE.SET_LOADING, payload: false });
     }
   }
 
   async function addNewTraining(payload) {
     try {
-      dispatch({ type: "setLoading", payload: true });
+      dispatch({ type: ACTION_TYPE.SET_LOADING, payload: true });
 
       await addNewTrainingService(payload);
       await getAllPlayers();
@@ -80,12 +88,12 @@ export function AppContextProvider({ children }) {
     } catch (err) {
       toast.error(err);
     } finally {
-      dispatch({ type: "setLoading", payload: false });
+      dispatch({ type: ACTION_TYPE.SET_LOADING, payload: false });
     }
   }
 
   async function addNewPlayer(payload) {
-    dispatch({ type: "setLoading", payload: true });
+    dispatch({ type: ACTION_TYPE.SET_LOADING, payload: true });
     try {
       await addNewPlayerService(payload);
       await getAllPlayers();
@@ -94,24 +102,28 @@ export function AppContextProvider({ children }) {
     } catch (err) {
       toast.error(err);
     } finally {
-      dispatch({ type: "setLoading", payload: false });
+      dispatch({ type: ACTION_TYPE.SET_LOADING, payload: false });
     }
   }
 
   async function getAllPlayers(filter = "") {
-    dispatch({ type: "setLoading", payload: true });
+    dispatch({ type: ACTION_TYPE.SET_LOADING, payload: true });
     try {
       const data = await getAllPlayersService(filter);
-      dispatch({ type: "getPlayers", payload: data });
+
+      const payload = { ...data, query: filter };
+      dispatch({ type: ACTION_TYPE.GET_PLAYERS, payload });
     } catch (err) {
       console.log(err);
+    } finally {
+      dispatch({ type: ACTION_TYPE.SET_LOADING, payload: false });
     }
   }
 
   async function getMonths() {
     try {
       const data = await getMonthsService();
-      dispatch({ type: "getMonths", payload: data.months });
+      dispatch({ type: ACTION_TYPE.GET_MONTHS, payload: data.months });
     } catch (err) {
       console.log(err);
     }
@@ -136,6 +148,7 @@ export function AppContextProvider({ children }) {
         increaseDebt,
         months,
         query,
+        lastTrainingDate,
       }}
     >
       {children}
@@ -144,7 +157,7 @@ export function AppContextProvider({ children }) {
 }
 
 AppContextProvider.propTypes = {
-  children: PropTypes.obj,
+  children: PropTypes.object,
 };
 
 export function useAppContext() {

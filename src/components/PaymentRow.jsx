@@ -45,7 +45,7 @@ function PaymentRow({ item, index }) {
 export default PaymentRow;
 
 PaymentRow.propTypes = {
-  item: PropTypes.obj,
+  item: PropTypes.object,
   index: PropTypes.number,
   handleAddDebt: PropTypes.func,
   handleAddCash: PropTypes.func,

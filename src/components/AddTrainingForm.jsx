@@ -3,8 +3,11 @@ import AddTrainingRow from "./AddTrainingRow";
 import Table from "./Table";
 import PropTypes from "prop-types";
 import { useAppContext } from "../context/AppContext";
+import { formatDate } from "../utils/helpers";
+
 function AddTrainingForm({ setShowTrainingModal }) {
-  const { addNewTraining, players, loading } = useAppContext();
+  const { addNewTraining, players, loading, lastTrainingDate } =
+    useAppContext();
   const [playersData, setPlayerData] = useState(players);
 
   const handleSubmit = async (e) => {
@@ -32,9 +35,12 @@ function AddTrainingForm({ setShowTrainingModal }) {
 
   return (
     <div className="mt-16">
-      <p className="font-cust-grey-900 uppercase p-2 font-bold  mb-2 px-4">
-        Evidencija treninga
-      </p>
+      <div className="font-cust-grey-900  p-2 font-bold  mb-2 px-4 ">
+        <p className="uppercase text-3xl">Evidencija treninga</p>
+        <p className="text-[1.4rem] text-cust-grey-500 mt-2 ">
+          Posljednji trening dodan: {formatDate(lastTrainingDate)}
+        </p>
+      </div>
 
       <form onSubmit={handleSubmit} className="shadow-2xl px-4">
         <Table columns="3rem 1fr  12rem">
@@ -42,11 +48,12 @@ function AddTrainingForm({ setShowTrainingModal }) {
 
           <Table.Body
             data={playersData}
-            render={(item) => (
+            render={(item, index) => (
               <AddTrainingRow
                 change={handleCheckboxChange}
                 item={item}
                 key={item.player_id}
+                index={index}
               />
             )}
           />

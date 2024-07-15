@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import { setBgColor } from "../utils";
 import Table from "./Table";
+import { setBgColor } from "../utils/helpers";
 
 function DetailRow({ item, index }) {
   const postotak =
@@ -28,5 +28,6 @@ function DetailRow({ item, index }) {
 export default DetailRow;
 
 DetailRow.propTypes = {
-  item: PropTypes.obj,
+  item: PropTypes.object,
+  index: PropTypes.number,
 };

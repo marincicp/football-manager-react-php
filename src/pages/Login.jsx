@@ -19,7 +19,7 @@ function Login() {
     if (user) {
       navigate("/");
     }
-  }, []);
+  }, [user]);
 
   return (
     <div className="bg-cust-grey-100 h-screen  w-screen flex justify-center items-center gap-2">

@@ -1,24 +1,20 @@
-import { PageLayout, PaymentRow, Spinner } from "../components";
+import { PageLayout, PaymentRow } from "../components";
 import Table from "../components/Table";
 import { FaEuroSign } from "react-icons/fa";
 import { useAppContext } from "../context/AppContext";
-import { useRef } from "react";
-import { useAuthContext } from "../context/AuthContext";
 
 function Payment() {
-  const { players, totalPaid, totalDebt, loading } = useAppContext();
-  const { user } = useAuthContext();
-  const pageRef = useRef(null);
+  const { players, totalPaid, totalDebt } = useAppContext();
 
   return (
-    <PageLayout ref={pageRef}>
+    <PageLayout>
       <PageLayout.Header>
         <h2 className="text-cust-grey-900 text-3xl px-6 font-bold">
           Evidencija o plaćanju
         </h2>
       </PageLayout.Header>
 
-      <PageLayout.Body className="">
+      <PageLayout.Body>
         {players && (
           <Table columns="3rem 1fr 8rem 11rem">
             <Table.Header header="# Ime Stanje " />

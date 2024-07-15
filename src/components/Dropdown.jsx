@@ -1,13 +1,9 @@
 import { useAppContext } from "../context/AppContext";
 import { MONTHS } from "../constants";
-import { useEffect, useState } from "react";
 
 function Dropdown() {
   const { months, getAllPlayers, query } = useAppContext();
-  const [filter, setFilter] = useState("");
-
   const handleChange = async (e) => {
-    // setFilter(e.target.value);
     await getAllPlayers(e.target.value);
   };
 

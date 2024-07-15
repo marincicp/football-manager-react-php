@@ -12,7 +12,6 @@ function Header() {
         <button
           onClick={logout}
           className="bg- justify-center flex items-center gap-2  p-1 rounded-xl  disabled:opacity-35 text-cust-grey-900 border-1 shadow-xl border-gray-300  text-xl"
-          // disabled={loading}
         >
           <IoLogOutOutline
             size="3rem"

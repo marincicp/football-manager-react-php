@@ -1,5 +1,6 @@
 import Login from "./Login";
 import Details from "./Details";
 import Payment from "./Payment";
+import Error from "./Error";
 
-export { Login, Details, Payment };
+export { Error, Login, Details, Payment };

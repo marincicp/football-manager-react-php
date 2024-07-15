@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AppLayout, ProtectedRoute } from "./components";
 import { lazy, Suspense } from "react";
-import { Login, Details, Payment } from "./pages";
+import { Login, Details, Payment, Error } from "./pages";
 
 const Standings = lazy(() => import("./components/Standings"));
 
@@ -30,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/seva",
         element: <Payment />,
+      },
+      {
+        path: "*",
+        element: <Error />,
       },
     ],
   },
