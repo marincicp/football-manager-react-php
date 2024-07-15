@@ -17,7 +17,7 @@ function PageHeader({ children, className }) {
 function PageBody({ children, className }) {
   return (
     <div
-      className={` w-full px-2 shadow-md  h-full overflow-y-scroll  rounded-xl ${className}`}
+      className={` w-full px-2 sm:px-0 shadow-md  h-fit  overflow-y-scroll  rounded-xl sm:w-11/12 md:w-9/12 2xl:w-7/12 sm:mx-auto ${className}`}
     >
       {children}
     </div>

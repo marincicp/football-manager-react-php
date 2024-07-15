@@ -7,13 +7,15 @@ export default function setBgColor(postotak, total) {
   ) {
     return "bg-red-900";
   } else if (postotak > 15 && postotak < 30) {
-    return "bg-red-700";
+    return "bg-red-800";
   } else if (postotak >= 30 && postotak < 45) {
-    return "bg-red-500";
+    return "bg-red-700";
   } else if (postotak >= 45 && postotak < 55) {
-    return "bg-yellow-400";
-  } else if (postotak >= 55 && postotak < 70) {
-    return "bg-cust-lime-400";
+    return "bg-yellow-500";
+  } else if (postotak >= 55 && postotak < 60) {
+    return "bg-yellow-200";
+  } else if (postotak >= 60 && postotak < 70) {
+    return "bg-lime-300";
   } else if (postotak >= 70 && postotak < 90) {
     return "bg-green-400";
   } else if (postotak >= 90 && postotak <= 100) {

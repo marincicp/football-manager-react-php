@@ -64,19 +64,15 @@ function Row({ children, header, className }) {
 }
 
 function Empty({ children }) {
-  const { loading } = useContext(TableContext);
-
   return <tbody className="empty">{children}</tbody>;
 }
 
 function Body({ data, render }) {
-  const { columns, loading } = useContext(TableContext);
-  console.log(loading, "loading", data);
+  const { columns } = useContext(TableContext);
 
   if (isEmpty(data)) return <Empty>No data !</Empty>;
 
   const columnNames = filter(keys(head(data)), (column) => column !== "id");
-
   return (
     <tbody
       className="body min-h-screen rounded-lg"
@@ -113,12 +109,12 @@ function Cell({ children, align, bold, className }) {
   );
 }
 
-function Table({ columns, children, loading, className }) {
+function Table({ columns, children, className, loading }) {
   if (loading) return <Spinner />;
 
   return (
-    <TableContext.Provider value={{ columns, loading }}>
-      <table className={`table shadow-md rounded-lg ${className}`}>
+    <TableContext.Provider value={{ columns }}>
+      <table className={`table shadow-md rounded-lg   ${className}`}>
         {children}
       </table>
     </TableContext.Provider>
@@ -137,6 +133,8 @@ export default Table;
 Table.propTypes = {
   children: PropTypes.array,
   columns: PropTypes.string,
+  className: PropTypes.string,
+  loading: PropTypes.bool,
 };
 
 Cell.propTypes = {
@@ -162,6 +160,7 @@ Empty.propTypes = {
 Row.propTypes = {
   children: PropTypes.array,
   header: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 Header.propTypes = {
@@ -179,19 +178,7 @@ Cell.defaultProps = {
   align: "center",
 };
 
-// useEffect(() => {
-//   // Definiranje async funkcije unutar useEffect
-//   const fetchData = async () => {
-//     try {
-//       const response = await fetch("http://localhost:80/ceric/api/konj");
-//       if (!response.ok) {
-//         throw new Error("Network response was not ok");
-//       }
-//       const data = await response.json();
-//       console.log(data);
-//     } catch (error) {}
-//   };
-
-//   // Pozivanje async funkcije
-//   fetchData();
-// }, []);
+Footer.propTypes = {
+  children: PropTypes.array,
+  className: PropTypes.string,
+};

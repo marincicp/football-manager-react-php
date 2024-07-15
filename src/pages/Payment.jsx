@@ -3,9 +3,11 @@ import Table from "../components/Table";
 import { FaEuroSign } from "react-icons/fa";
 import { useAppContext } from "../context/AppContext";
 import { useRef } from "react";
+import { useAuthContext } from "../context/AuthContext";
 
 function Payment() {
   const { players, totalPaid, totalDebt, loading } = useAppContext();
+  const { user } = useAuthContext();
   const pageRef = useRef(null);
 
   return (
@@ -22,7 +24,9 @@ function Payment() {
             <Table.Header header="# Ime Stanje " />
             <Table.Body
               data={players}
-              render={(item) => <PaymentRow key={item.player_id} item={item} />}
+              render={(item, index) => (
+                <PaymentRow index={index} key={item.player_id} item={item} />
+              )}
             />
             <Table.Footer className="bg-cust-grey-200 border-0">
               <td></td>

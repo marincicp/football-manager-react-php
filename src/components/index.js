@@ -14,8 +14,10 @@ import Spinner from "./Spinner";
 import PaymentRow from "./PaymentRow";
 import PageLayout from "./PageLayout";
 import ProtectedRoute from "./ProtectedRoute";
+import Dropdown from "./Dropdown";
 
 export {
+  Dropdown,
   ProtectedRoute,
   Spinner,
   PaymentRow,

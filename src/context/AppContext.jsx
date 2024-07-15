@@ -7,9 +7,11 @@ const AppContext = createContext();
 const initialState = {
   user: null,
   players: [],
+  months: [],
   totalDebt: 0,
   totalPaid: 0,
   laoding: true,
+  query: "",
 };
 
 function reducer(state, action) {
@@ -25,15 +27,14 @@ function reducer(state, action) {
 
     case "setLoading":
       return { ...state, loading: action.payload };
+    case "getMonths":
+      return { ...state, months: action.payload };
   }
 }
 
 export function AppContextProvider({ children }) {
-  const [{ players, loading, totalDebt, totalPaid }, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
-
+  const [{ players, loading, totalDebt, totalPaid, months, query }, dispatch] =
+    useReducer(reducer, initialState);
   async function increaseDebt(playerID) {
     dispatch({ type: "setLoading", payload: true });
     const payload = {
@@ -54,7 +55,6 @@ export function AppContextProvider({ children }) {
       toast.success("Plus uspješno dodan.");
     } catch (err) {
       toast.error("Greška. Pokušaj ponovo.");
-      console.log(err);
     } finally {
       dispatch({ type: "setLoading", payload: false });
     }
@@ -78,7 +78,6 @@ export function AppContextProvider({ children }) {
       await getAllPlayers();
       toast.success("1 € uspješno dodan.");
     } catch (err) {
-      console.log(err);
       toast.error("Greška. Pokušaj ponovo.");
     }
   }
@@ -133,9 +132,16 @@ export function AppContextProvider({ children }) {
     }
   }
 
-  async function getAllPlayers() {
+  async function getAllPlayers(filter = "") {
+    dispatch({ type: "setLoading", payload: true });
     try {
-      const res = await fetch(`${BASE_URL}/players`);
+      let url = `${BASE_URL}/players`;
+
+      if (filter) {
+        url += `?month=${filter.toLowerCase()}`;
+      }
+
+      const res = await fetch(url);
       const data = await res.json();
       dispatch({ type: "getPlayers", payload: data });
     } catch (err) {
@@ -143,8 +149,22 @@ export function AppContextProvider({ children }) {
     }
   }
 
+  async function getMonths() {
+    try {
+      const res = await fetch(`${BASE_URL}/training/getMonths`);
+
+      const data = await res.json();
+
+      dispatch({ type: "getMonths", payload: data.months });
+      // console.log(data, "data");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
     getAllPlayers();
+    getMonths();
   }, []);
 
   return (
@@ -159,6 +179,8 @@ export function AppContextProvider({ children }) {
         totalDebt,
         decreaseDebt,
         increaseDebt,
+        months,
+        query,
       }}
     >
       {children}

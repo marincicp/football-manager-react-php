@@ -14,8 +14,8 @@ function AddPlayerForm({ setShowPlayerModal }) {
       name,
       dob: godine,
     };
-    await addNewPlayer(payload);
     setShowPlayerModal(false);
+    await addNewPlayer(payload);
   };
 
   return (

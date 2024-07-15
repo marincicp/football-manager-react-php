@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Navigate } from "react-router-dom";
+import PropTypes from "prop-types";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const AuthContext = createContext();
 
@@ -34,10 +35,25 @@ export function AuthContextProvider({ children }) {
     }
   }
 
-  function logout() {
-    setUser(null);
-    sessionStorage.removeItem("user");
-    <Navigate to="/login" />;
+  async function logout() {
+    try {
+      const res = await fetch(`${BASE_URL}/logout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error("Greška prilikom odjave.");
+      }
+
+      setUser(null);
+      sessionStorage.removeItem("user");
+      <Navigate to="/login" />;
+    } catch (err) {
+      toast.error(err);
+    }
   }
 
   useEffect(() => {
@@ -63,3 +79,7 @@ export function useAuthContext() {
 
   return context;
 }
+
+AuthContextProvider.propTypes = {
+  children: PropTypes.array,
+};

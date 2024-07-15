@@ -18,9 +18,8 @@ function AddTrainingForm({ setShowTrainingModal }) {
     const payload = {
       players: playerData,
     };
-    await addNewTraining(payload);
-
     setShowTrainingModal(false);
+    await addNewTraining(payload);
   };
 
   const handleCheckboxChange = (id, checked) => {

@@ -16,11 +16,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         containerStyle={{ margin: "8px" }}
         toastOptions={{
           success: {
-            duration: 4000,
+            duration: 1000,
             style: { backgroundColor: "#dcfce7" },
           },
           error: {
-            duration: 5000,
+            duration: 3000,
             style: { backgroundColor: "var(--color-red-100)" },
           },
 

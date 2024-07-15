@@ -2,14 +2,14 @@ import PropTypes from "prop-types";
 import { setBgColor } from "../utils";
 import Table from "./Table";
 
-function DetailRow({ item }) {
+function DetailRow({ item, index }) {
   const postotak =
     (Number(item?.attended_trainings) / Number(item?.total_trainings)) * 100;
   const bg = setBgColor(postotak, item?.total_trainings);
 
   return (
     <Table.Row>
-      <td align="center">{item?.player_id}.</td>
+      <td align="center">{index + 1}.</td>
       <td align="left">{item?.name}</td>
       <td align="center">{item?.dob}</td>
       <td align="center">
