@@ -24,6 +24,8 @@ function Details() {
       players.length
     );
   }, [players]);
+
+  console.log(typeof prosjek);
   return (
     <PageLayout>
       <PageLayout.Header className="flex justify-between px-6">
@@ -73,7 +75,7 @@ function Details() {
                 <DetailRow index={index} key={item.player_id} item={item} />
               )}
             />
-            {!query && (
+            {!query && players.length > 0 && (
               <Table.Footer className="bg-cust-grey-200 border-0">
                 <td></td>
                 <Table.Cell align="right" className="bold uppercase text-2xl">
@@ -83,9 +85,7 @@ function Details() {
                   align="center"
                   className="flex justify-center items-center font-semibold gap-1"
                 >
-                  <span className="text-[1.4rem]">
-                    {prosjek?.toFixed(0) || "-"}
-                  </span>
+                  <span className="text-[1.4rem]">{prosjek?.toFixed(0)}</span>
                 </Table.Cell>
               </Table.Footer>
             )}
