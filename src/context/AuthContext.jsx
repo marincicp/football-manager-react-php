@@ -2,7 +2,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+import { loginService, logoutService } from "../services/apiLogin";
+
 const AuthContext = createContext();
 
 export function AuthContextProvider({ children }) {
@@ -12,19 +13,7 @@ export function AuthContextProvider({ children }) {
   async function login(username, password) {
     setIsLoading(true);
     try {
-      const res = await fetch(`${BASE_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message);
-      }
-
+      const data = await loginService(username, password);
       setUser(data.user);
       sessionStorage.setItem("user", JSON.stringify(data.user));
       toast.success("Uspješno ste prijavljeni.");
@@ -37,17 +26,7 @@ export function AuthContextProvider({ children }) {
 
   async function logout() {
     try {
-      const res = await fetch(`${BASE_URL}/logout`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!res.ok) {
-        throw new Error("Greška prilikom odjave.");
-      }
-
+      await logoutService();
       setUser(null);
       sessionStorage.removeItem("user");
       <Navigate to="/login" />;

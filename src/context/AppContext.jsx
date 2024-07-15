@@ -1,7 +1,14 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import PropTypes from "prop-types";
 import toast from "react-hot-toast";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+import {
+  addNewPlayerService,
+  addNewTrainingService,
+  decreaseDebtService,
+  getAllPlayersService,
+  getMonthsService,
+  increaseDebtService,
+} from "../services/apiPlayers";
 const AppContext = createContext();
 
 const initialState = {
@@ -35,21 +42,11 @@ function reducer(state, action) {
 export function AppContextProvider({ children }) {
   const [{ players, loading, totalDebt, totalPaid, months, query }, dispatch] =
     useReducer(reducer, initialState);
+
   async function increaseDebt(playerID) {
     dispatch({ type: "setLoading", payload: true });
-    const payload = {
-      player_id: playerID,
-    };
-
     try {
-      await fetch(`${BASE_URL}/players/addDebt`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
+      await increaseDebtService(playerID);
       await getAllPlayers();
 
       toast.success("Plus uspješno dodan.");
@@ -62,19 +59,9 @@ export function AppContextProvider({ children }) {
 
   async function decreaseDebt(playerID) {
     dispatch({ type: "setLoading", payload: true });
-    const payload = {
-      player_id: playerID,
-    };
 
     try {
-      await fetch(`${BASE_URL}/players/payEuro`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
+      await decreaseDebtService(playerID);
       await getAllPlayers();
       toast.success("1 € uspješno dodan.");
     } catch (err) {
@@ -85,18 +72,8 @@ export function AppContextProvider({ children }) {
   async function addNewTraining(payload) {
     try {
       dispatch({ type: "setLoading", payload: true });
-      const res = await fetch(`${BASE_URL}/training/add`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
 
-      if (!res.ok) {
-        throw new Error("Greška prilikom dodavanja treninga.");
-      }
-
+      await addNewTrainingService(payload);
       await getAllPlayers();
 
       toast.success("Trening uspješno dodan.");
@@ -110,18 +87,7 @@ export function AppContextProvider({ children }) {
   async function addNewPlayer(payload) {
     dispatch({ type: "setLoading", payload: true });
     try {
-      const res = await fetch(`${BASE_URL}/players/addPlayer`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        throw new Error("Greška prilikom dodavanja igrača.");
-      }
-
+      await addNewPlayerService(payload);
       await getAllPlayers();
 
       toast.success("Igrač uspješno dodan.");
@@ -135,14 +101,7 @@ export function AppContextProvider({ children }) {
   async function getAllPlayers(filter = "") {
     dispatch({ type: "setLoading", payload: true });
     try {
-      let url = `${BASE_URL}/players`;
-
-      if (filter) {
-        url += `?month=${filter.toLowerCase()}`;
-      }
-
-      const res = await fetch(url);
-      const data = await res.json();
+      const data = await getAllPlayersService(filter);
       dispatch({ type: "getPlayers", payload: data });
     } catch (err) {
       console.log(err);
@@ -151,12 +110,8 @@ export function AppContextProvider({ children }) {
 
   async function getMonths() {
     try {
-      const res = await fetch(`${BASE_URL}/training/getMonths`);
-
-      const data = await res.json();
-
+      const data = await getMonthsService();
       dispatch({ type: "getMonths", payload: data.months });
-      // console.log(data, "data");
     } catch (err) {
       console.log(err);
     }
