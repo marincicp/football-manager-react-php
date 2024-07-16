@@ -1,0 +1,10 @@
+{
+    "workbench.colorCustomizations": {
+        "[One Monokai]": {
+            "sideBar.background": "#001122",
+            "editor.background": "#001122",
+            "titleBar.inactiveBackground": "#181825",
+            "sideBarSectionHeader.background": "#181825"
+        }
+    }
+}
